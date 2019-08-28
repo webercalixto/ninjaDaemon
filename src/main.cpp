@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     }
     ctx.logger->log("STARTING NINJADAEMON");
     std::cout << "HELLO WORLD" << std::endl;
-    ctx.loadConfigFile("test.ini");
+    ctx.loadConfigFile(std::string(argv[1]));
     ctx.logger->log("FINISHING NINJADAEMON");
     return 0;
 }
