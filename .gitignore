@@ -12,6 +12,7 @@ compile_commands.json
 CTestTestfile.cmake
 bin
 html/*
+build/*
 latex/*
 local.properties
 .settings/
