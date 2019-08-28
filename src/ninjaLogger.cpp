@@ -28,12 +28,14 @@ void ninjaLogger::setLogLevel(const int &level)
     this->logLevel = level;
 }
 
-void ninjaLogger::log(const int level, const std::string &message) const
+void ninjaLogger::log(const int level, const std::string &message)
 {
+    /** syslog is supposed to be thread safe, but this is subject to change **/
+    std::scoped_lock lck(this->lock);
     syslog(level, "%s", message.c_str());
     if (level <= this->CRIT_LVL) std::cout << message << std::endl;
 }
-void ninjaLogger::log(const std::string &message) const
+void ninjaLogger::log(const std::string &message)
 {
     this->log(this->logLevel, message);
 }

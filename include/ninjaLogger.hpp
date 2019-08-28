@@ -4,7 +4,8 @@
 class ninjaLogger
 {
     private:
-    int logLevel;
+    int        logLevel;
+    std::mutex lock;
 
     public:
     const int NOTICE_LVL;
@@ -18,8 +19,8 @@ class ninjaLogger
     ninjaLogger();
     ~ninjaLogger();
     void setLogLevel(const int &level);
-    void log(const std::string &message) const;
-    void log(int level, const std::string &message) const;
+    void log(const std::string &message);
+    void log(int level, const std::string &message);
 };
 
 #endif

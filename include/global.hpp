@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <string>
+#include <mutex>
 
 #include "ninjaLogger.hpp"
 #include "ninjaDaemon.hpp"
