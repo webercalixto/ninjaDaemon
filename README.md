@@ -1,3 +1,4 @@
+### * This is a work in progress
 # Aboute this project
 
 This is a simple worker daemon with REST JSON support, written with C++17
