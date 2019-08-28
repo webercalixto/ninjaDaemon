@@ -6,4 +6,14 @@ ninjaDaemon::ninjaDaemon()
     this->logger       = std::make_shared<ninjaLogger>();
 }
 
-ninjaDaemon::~ninjaDaemon() {}
+ninjaDaemon::~ninjaDaemon()
+{
+    this->logger->log("ninjaDaemon ctx finishing");
+}
+
+bool ninjaDaemon::loadConfigFile(std::string configFilename)
+{
+    this->logger->log("ninjaDaemon::loadConfigFile " + configFilename);
+
+    return false;
+}

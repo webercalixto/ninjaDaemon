@@ -11,5 +11,6 @@ class ninjaDaemon
     std::shared_ptr<ninjaLogger> logger;
     ninjaDaemon();
     ~ninjaDaemon();
+    bool loadConfigFile(std::string configFilename);
 };
 #endif
