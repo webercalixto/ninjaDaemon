@@ -10,6 +10,18 @@ I've chosen to work with GitHubflow (i.e Only a master branch with feature branc
 
 Convention: Every master commit must be stable.
 
+## Dependencies
+
+Compiler:
+
+For best C++17 support, use gcc 8 or newer, clang 7 or newer.
+
+Formatter:
+
+You must install clang-formatter to edit code following this project's code style.
+
+*It may necessary to edit script/build.sh to use the appropriate clang-formatter command line call.
+
 ## Build instructions
 
 ### First time:
