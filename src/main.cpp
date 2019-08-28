@@ -1,5 +1,7 @@
 #include "global.hpp"
 
+ninjaDaemon ctxDaemon;
+
 int main(int argc, char *argv[])
 {
     (void)argc;

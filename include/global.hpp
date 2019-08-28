@@ -6,5 +6,6 @@
 #include <string>
 
 #include "ninjaLogger.hpp"
+#include "ninjaDaemon.hpp"
 
 #endif
