@@ -11,9 +11,10 @@ ninjaDaemon::~ninjaDaemon()
     this->logger->log("ninjaDaemon ctx finishing");
 }
 
-bool ninjaDaemon::loadConfigFile(std::string configFilename)
+bool ninjaDaemon::loadConfigFile(std::string configFilename, const ninjaStructs::workerConfigMap & workerConfigs)
 {
     this->logger->log("ninjaDaemon::loadConfigFile " + configFilename);
+
 
     return false;
 }
