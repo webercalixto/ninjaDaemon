@@ -13,15 +13,13 @@ typedef enum workerConfigValType
     WTYPE_DOUBLE = 3
 } workerConfigValType;
 
-
 /** Until C++ get reflections, this sort of abstraction is necessary to automate variable retrieval **/
+/** Of course there are libraries for this, but what I need here is quite simple **/
 typedef struct workerConfigVal
 {
     ninjaStructs::workerConfigValType type;
     std::string                       value;
 } workerConfigVal;
-
-
 
 using workerConfigMap = std::map<std::string, ninjaStructs::workerConfigVal>;
 

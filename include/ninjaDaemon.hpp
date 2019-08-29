@@ -4,13 +4,15 @@
 class ninjaDaemon
 {
     private:
-    std::string configFile;
+    std::string configFilename{ "" };
+    int         numNinjaWorkers{ 0 };
 
     public:
-    bool                         finishDaemon;
-    std::shared_ptr<ninjaLogger> logger;
+    ninjaStructs::workerConfigMap workerConfigs;
+    bool                          finishDaemon{ false };
+    std::shared_ptr<ninjaLogger>  logger;
     ninjaDaemon();
     ~ninjaDaemon();
-    bool loadConfigFile(std::string configFilename);
+    bool loadConfigFile(std::string configFile);
 };
 #endif
