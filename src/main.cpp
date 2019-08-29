@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     ctx.workerConfigs["sleepDuration"] = { ninjaStructs::WTYPE_INT, "" };
 
     ctx.logger->log("STARTING NINJADAEMON");
-    if (argc < 2 || !ninjaUtils::validPtr(argv[1]) || !std::filesystem::exists(argv[1]))
+    if (argc < 2 || !ninjaUtils::validFile(argv[1]))
     {
         ctx.logger->log("No ini filename provided or ini file doesnt exist. exiting");
         return 0;

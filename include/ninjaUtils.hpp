@@ -6,6 +6,11 @@ bool validPtr(T ptn)
 {
     return ptn == nullptr ? false : true;
 }
+
+
+bool validFile(const char *filename);
+
 } // namespace ninjaUtils
+
 
 #endif
