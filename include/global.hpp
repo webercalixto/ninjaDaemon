@@ -2,6 +2,7 @@
 #define GLOBAL_HPP
 #include <cstdio>
 #include <iostream>
+#include <fstream>
 #include <thread>
 #include <string>
 #include <mutex>
@@ -9,6 +10,8 @@
 #include <map>
 
 #include "ninjaStructs.hpp"
+
+#include "ninjaUtils.hpp"
 
 #include "ninjaLogger.hpp"
 #include "ninjaDaemon.hpp"
