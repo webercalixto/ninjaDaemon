@@ -37,7 +37,7 @@ bool ninjaDaemon::loadConfigFile(std::string configFile)
         ninjaStructs::workerConfigMap workerConfig = this->workerConfigs;
         for (auto const &[key, val] : this->workerConfigs)
             inipp::extract(ini.sections[std::to_string(workerNum)][key], workerConfig[key].value);
-        std::unique_ptr<ninjaWorker> ptr(new ninjaWorker(workerNum, workerConfig, this->logger));
+        std::unique_ptr<ninjaWorker> ptr(new ninjaWorker(workerNum, workerConfig, this->logger, this->funcPtr));
         this->ninjaWorkers.push_back(std ::move(ptr));
     }
     return true;

@@ -3,14 +3,17 @@
 class ninjaWorker
 {
     private:
-    int                           workerNum{ -1 };
-    ninjaStructs::workerConfigMap workerConfig;
-    std::shared_ptr<ninjaLogger>  logger;
+    std::promise<void>             exitSignal;
+    int                            workerNum{ -1 };
+    ninjaStructs::workerConfigMap  workerConfig;
+    std::shared_ptr<ninjaLogger>   logger;
+    ninjaStructs::funcCallbackPtr *funcPtr = nullptr;
+    std::thread                    thread;
 
     public:
     ninjaWorker(const int _workerNum, const ninjaStructs::workerConfigMap &_workerConfig,
-                std::shared_ptr<ninjaLogger> _logger);
+                std::shared_ptr<ninjaLogger> _logger, ninjaStructs::funcCallbackPtr *_funcPtr);
     ~ninjaWorker();
-    bool setConfigs(const ninjaStructs::workerConfigMap &_workerConfig);
+    void threadFunction(std::future<void> futureFinish);
 };
 #endif
