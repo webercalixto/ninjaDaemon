@@ -135,7 +135,6 @@ Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunctio
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=2 doing some work
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 2 going to sleep
 Aug 29 22:29:49 weber-VirtualBox |NINJADAEMON|[4492]: signalHandler: Interrupt signal (2) received
-Aug 29 22:29:49 weber-VirtualBox |NINJADAEMON|[4492]: FINISHING NINJADAEMON
 Aug 29 22:29:49 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon ctx finishing
 Aug 29 22:29:49 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 0 starting
 Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 0 finishing thread
