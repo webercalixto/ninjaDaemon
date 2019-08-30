@@ -49,17 +49,17 @@ cd scripts/
 Lets say you want 4 workers ("threads").
 Configuration file .ini:
 
-[DEFAULT]
-numNinjaWorkers=4
-[0]
-sleepDuration=10
-serverURL=http://www.google.com
-[1]
-sleepDuration=15
-serverURL=http://www.bing.com
-[2]
-sleepDuration=20
-serverURL=http://www.duckduckgo.com
-[3]
-sleepDuration=30
-serverURL=http://www.dontknowanyothersearchsites.com
+[DEFAULT]  
+numNinjaWorkers=4  
+[0]  
+sleepDuration=10  
+serverURL=http://www.google.com  
+[1]  
+sleepDuration=15  
+serverURL=http://www.bing.com  
+[2]  
+sleepDuration=20  
+serverURL=http://www.duckduckgo.com  
+[3]  
+sleepDuration=30  
+serverURL=http://www.dontknowanyothersearchsites.com  
