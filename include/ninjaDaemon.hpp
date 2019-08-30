@@ -6,6 +6,8 @@ class ninjaDaemon
     private:
     std::string configFilename{ "" };
     int         numNinjaWorkers{ 0 };
+    // ninjaWorker *ninjaWorkers{ nullptr };
+    std::vector<std::unique_ptr<ninjaWorker>> ninjaWorkers;
 
     public:
     ninjaStructs::workerConfigMap workerConfigs;

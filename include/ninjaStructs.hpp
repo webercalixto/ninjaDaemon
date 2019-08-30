@@ -17,8 +17,8 @@ typedef enum workerConfigValType
 /** Of course there are libraries for this, but what I need here is quite simple **/
 typedef struct workerConfigVal
 {
-    ninjaStructs::workerConfigValType type;
-    std::string                       value;
+    ninjaStructs::workerConfigValType type  = WTYPE_STRING;
+    std::string                       value = "";
 } workerConfigVal;
 
 using workerConfigMap = std::map<std::string, ninjaStructs::workerConfigVal>;

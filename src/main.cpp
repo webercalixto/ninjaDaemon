@@ -5,7 +5,8 @@ ninjaDaemon ctx;
 int main(int argc, char *argv[])
 {
     /** Until C++ get reflections, this sort of abstraction is necessary to automate variable retrieval **/
-    ctx.workerConfigs["sleepDuration"] = { ninjaStructs::WTYPE_INT, "" };
+    ctx.workerConfigs["sleepDuration"] = { ninjaStructs::WTYPE_INT };
+    ctx.workerConfigs["serverURL"]     = { ninjaStructs::WTYPE_STRING };
 
     ctx.logger->log("STARTING NINJADAEMON");
     if (argc < 2 || !ninjaUtils::validFile(argv[1]))

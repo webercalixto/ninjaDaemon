@@ -4,9 +4,6 @@
 
 ninjaDaemon::ninjaDaemon()
 {
-    /*this->finishDaemon = false;
-    this->numNinjaWorkers = 0;
-    this->configFilename{ "" };*/
     this->logger = std::make_shared<ninjaLogger>();
 }
 
@@ -35,9 +32,13 @@ bool ninjaDaemon::loadConfigFile(std::string configFile)
         return false;
     }
     this->logger->log("ninjaDaemon::loadConfigFile numNinjaWorkers = " + std::to_string(this->numNinjaWorkers));
-    for (auto const &[key, val] : this->workerConfigs)
+    for (int workerNum = 0; workerNum < this->numNinjaWorkers; workerNum++)
     {
-        std::cout << key << ':' << val.value << std::endl;
+        ninjaStructs::workerConfigMap workerConfig = this->workerConfigs;
+        for (auto const &[key, val] : this->workerConfigs)
+            inipp::extract(ini.sections[std::to_string(workerNum)][key], workerConfig[key].value);
+        std::unique_ptr<ninjaWorker> ptr(new ninjaWorker(workerNum, workerConfig, this->logger));
+        this->ninjaWorkers.push_back(std ::move(ptr));
     }
-    return false;
+    return true;
 }
