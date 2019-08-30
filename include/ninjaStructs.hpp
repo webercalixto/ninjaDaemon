@@ -1,7 +1,7 @@
 #ifndef NYNJASTRUCTS_HPP
 #define NYNJASTRUCTS_HPP
 
-
+#include "ninjaLogger.hpp"
 
 namespace ninjaStructs {
 
@@ -22,7 +22,8 @@ typedef struct workerConfigVal
 } workerConfigVal;
 
 using workerConfigMap = std::map<std::string, ninjaStructs::workerConfigVal>;
-
+using funcCallbackPtr = void(const int workerNum, const ninjaStructs::workerConfigMap &_workerConfig,
+                             const std::shared_ptr<ninjaLogger> &_logger);
 } // namespace ninjaStructs
 
 

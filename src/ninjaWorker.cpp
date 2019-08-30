@@ -2,11 +2,12 @@
 
 
 ninjaWorker::ninjaWorker(const int _workerNum, const ninjaStructs::workerConfigMap &_workerConfig,
-                         std::shared_ptr<ninjaLogger> _logger)
+                         std::shared_ptr<ninjaLogger> _logger, ninjaStructs::funcCallbackPtr *_funcPtr)
 {
     this->logger       = _logger;
     this->workerConfig = _workerConfig;
     this->workerNum    = _workerNum;
+    this->funcPtr      = _funcPtr;
     std::string logMessage{ "ninjaWorker::ninjaWorker constructor workerNum = " + std::to_string(this->workerNum)
                             + " " };
 
@@ -34,6 +35,7 @@ void ninjaWorker::threadFunction(std::future<void> futureFinish)
     this->logger->log("ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum) + " starting thread");
     while (futureFinish.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
     {
+        this->funcPtr(this->workerNum, this->workerConfig, this->logger);
         this->logger->log("ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum)
                           + " going to sleep");
         std::this_thread::sleep_for(std::chrono::milliseconds(std::stoi(this->workerConfig["sleepDuration"].value)));
