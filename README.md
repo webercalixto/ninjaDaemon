@@ -1,17 +1,30 @@
 ### * This is a work in progress
-# Aboute this project
+# Table of contents
+1. [About this project](#about)  
+  1.1 [Git workflow ](#git_workflow)  
+  1.1 [Dependencies ](#dependencies)  
+2. [Build Instructions](#build_instructions)  
+  2.1 [First Build](#first_build)  
+  2.2 [Subsequent Builds](#subsequent_builds)  
+  2.2 [Clean](#clean)  
+2. [Example](#usage_example)  
+  2.1 [Ini File](#example_ini_file)  
+  2.2 [Code](#example_code)  
+  2.2 [Syslog output](#example_syslog)  
+
+# Aboute this project <a name="about"></a>
 
 This is a simple worker daemon with REST JSON support, written with C++17
 
 Author: weber calixto (webersouzacalixto at gmail)
 
-## Git workflow
+## Git workflow <a name="git_workflow"></a>
 
 I've chosen to work with GitHubflow (i.e Only a master branch with feature branches, no master/develop scheme, versioning with git tags).
 
 Convention: Every master commit must be stable.
 
-## Dependencies
+## Dependencies <a name="dependencies"></a>
 
 Compiler:
 
@@ -23,9 +36,9 @@ You must install clang-formatter to edit code following this project's code styl
 
 *It may necessary to edit script/build.sh to use the appropriate clang-formatter command line call.
 
-## Build instructions
+## Build instructions <a name="build_instructions"></a>
 
-### First time:
+### First Build <a name="first_build"></a>
 
 cd scripts/
 
@@ -33,21 +46,21 @@ cd scripts/
 
 ./build.sh
 
-### Subsequent builds 
+### Subsequent builds <a name="subsequent_builds"></a>
 
 cd scripts/
 
 ./build.sh
 
-### To clean
+### To clean <a name="clean"></a>
 
 cd scripts/
 
 ./clean.sh
-
-# Usage Example
+ 
+# Usage Example <a name="usage_example"></a>
 Lets say you want 4 workers ("threads").
-### Configuration file .ini could look like this:
+### Configuration file .ini <a name="example_ini_file"></a>
 
 [DEFAULT]  
 numNinjaWorkers=4  
@@ -64,7 +77,7 @@ serverURL=http://www.duckduckgo.com
 sleepDuration=30  
 serverURL=http://www.dontknowanyothersearchsites.com  
 
-### Your code thus would have to look like this:
+### Your code thus would have to look like this <a name="example_code"></a>
 
 ```C++
 ninjaDaemon ctx;
@@ -72,7 +85,7 @@ ctx.workerConfigs["sleepDuration"] = { ninjaStructs::WTYPE_INT };
 ctx.workerConfigs["serverURL"]     = { ninjaStructs::WTYPE_STRING };
 ctx.loadConfigFile(your_ini_filename_here);
 ```
-### The output on syslog would me something like this:
+### The output on syslog would me something like this: <a name="example_syslog"></a>
 
 ```
 Aug 29 21:12:09 weber-VirtualBox |NINJADAEMON|[30484]: ninjaDaemon: Log started
