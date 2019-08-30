@@ -16,7 +16,9 @@
 # Aboute this project <a name="about"></a>
 
 This is a simple worker daemon with REST JSON support, written with C++17 <span style="color:red">  
+
 **I am working on a C99 equivalent, will release soon** </span>  
+
 There is a simple datatype abstraction, given that C++ will not support reflections in the near future.
 
 Author: weber calixto (webersouzacalixto at gmail)
