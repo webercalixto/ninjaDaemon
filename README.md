@@ -70,16 +70,16 @@ Lets say you want 4 workers ("threads").
 [DEFAULT]  
 numNinjaWorkers=4  
 [0]  
-sleepDuration=10  
+sleepDuration=3000  
 serverURL=http://www.google.com  
 [1]  
-sleepDuration=15  
+sleepDuration=3000  
 serverURL=http://www.bing.com  
 [2]  
-sleepDuration=20  
+sleepDuration=3000  
 serverURL=http://www.duckduckgo.com  
 [3]  
-sleepDuration=30  
+sleepDuration=3000  
 serverURL=http://www.dontknowanyothersearchsites.com  
 
 ### Your code thus would have to look like this <a name="example_code"></a>
