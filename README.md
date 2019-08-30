@@ -112,8 +112,8 @@ void main(){
   }
 }
 ```
-### The output on syslog would me something like this: <a name="example_syslog"></a>
-
+### The output on syslog would look something like this: <a name="example_syslog"></a>
+* Bear in mind the workers are fully asynchronous, message order may differ
 ```
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon: Log started
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon::loadConfigFile
