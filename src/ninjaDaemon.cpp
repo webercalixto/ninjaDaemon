@@ -2,9 +2,9 @@
 
 #include "inipp/inipp.h"
 
-ninjaDaemon::ninjaDaemon()
+ninjaDaemon::ninjaDaemon(const std::string &logName)
 {
-    this->logger = std::make_shared<ninjaLogger>();
+    this->logger = std::make_shared<ninjaLogger>(logName);
 }
 
 ninjaDaemon::~ninjaDaemon()

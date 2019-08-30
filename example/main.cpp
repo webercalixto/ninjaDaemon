@@ -1,6 +1,6 @@
 #include "global.hpp"
 #include <csignal>
-ninjaDaemon ctx;
+ninjaDaemon ctx("NINJAEXAMPLE");
 
 void signalHandler(int signum)
 {

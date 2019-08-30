@@ -16,7 +16,7 @@ class ninjaLogger
     const int CRIT_LVL;
     const int ALERT_LVL;
     const int EMERG_LVL;
-    ninjaLogger();
+    ninjaLogger(const std::string &logName);
     ~ninjaLogger();
     void setLogLevel(const int &level);
     void log(const std::string &message);

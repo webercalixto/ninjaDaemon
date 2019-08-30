@@ -14,7 +14,7 @@ class ninjaDaemon
     ninjaStructs::workerConfigMap  workerConfigs;
     bool                           finishDaemon{ false };
     std::shared_ptr<ninjaLogger>   logger;
-    ninjaDaemon();
+    ninjaDaemon(const std::string &logName);
     ~ninjaDaemon();
     bool loadConfigFile(std::string configFile);
 };

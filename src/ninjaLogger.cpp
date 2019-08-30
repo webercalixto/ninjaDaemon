@@ -1,7 +1,7 @@
 #include "global.hpp"
 #include <syslog.h>
 
-ninjaLogger::ninjaLogger()
+ninjaLogger::ninjaLogger(const std::string &logName)
     : NOTICE_LVL(LOG_NOTICE)
     , DEBUG_LVL(LOG_DEBUG)
     , INFO_LVL(LOG_INFO)
@@ -12,7 +12,7 @@ ninjaLogger::ninjaLogger()
     , EMERG_LVL(LOG_EMERG)
 {
     setLogLevel(this->DEBUG_LVL);
-    openlog("|NINJADAEMON|", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
+    openlog(logName.c_str(), LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
     this->log("ninjaDaemon: Log started");
 }
 
