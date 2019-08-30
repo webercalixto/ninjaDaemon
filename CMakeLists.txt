@@ -43,7 +43,14 @@ file(GLOB SOURCES
 				  "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
-add_executable(ninjaDaemon ${SOURCES})
+add_library(ninjaDaemonStatic STATIC ${SOURCES})
+set_target_properties(ninjaDaemonStatic PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(ninjaDaemonStatic PUBLIC 
+	Threads::Threads 
+	stdc++fs
+	libpistache.a)
+	
+add_executable(ninjaDaemon ${SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp")
 target_link_libraries(ninjaDaemon PUBLIC 
 	Threads::Threads 
 	stdc++fs
