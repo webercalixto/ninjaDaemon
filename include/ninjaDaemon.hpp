@@ -6,10 +6,10 @@ class ninjaDaemon
     private:
     std::string configFilename{ "" };
     int         numNinjaWorkers{ 0 };
-    // ninjaWorker *ninjaWorkers{ nullptr };
     std::vector<std::unique_ptr<ninjaWorker>> ninjaWorkers;
 
     public:
+    bool                          finish;
     ninjaStructs::workerConfigMap workerConfigs;
     bool                          finishDaemon{ false };
     std::shared_ptr<ninjaLogger>  logger;

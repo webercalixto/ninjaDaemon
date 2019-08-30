@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <map>
 #include <memory>
+#include <future>
 
 #include "ninjaStructs.hpp"
 

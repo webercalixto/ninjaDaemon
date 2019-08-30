@@ -1,6 +1,13 @@
 #include "global.hpp"
-
+#include <csignal>
 ninjaDaemon ctx;
+
+void signalHandler(int signum)
+{
+    ctx.logger->log("signalHandler: Interrupt signal (" + std::to_string(signum) + ") received");
+    ctx.finish = true;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +23,12 @@ int main(int argc, char *argv[])
     }
     ctx.logger->log("STARTING NINJADAEMON");
     std::cout << "HELLO WORLD" << std::endl;
-    ctx.loadConfigFile(std::string(argv[1]));
+    if (!ctx.loadConfigFile(std::string(argv[1]))) return 0;
+    signal(SIGINT, signalHandler);
+    while (!ctx.finish)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
     ctx.logger->log("FINISHING NINJADAEMON");
     return 0;
 }
