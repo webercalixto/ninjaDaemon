@@ -14,13 +14,14 @@
 
 # Aboute this project <a name="about"></a>
 
-This is a simple worker daemon with REST JSON support, written with C++17
+This is a simple worker daemon with REST JSON support, written with C++17  
+There is a simple datatype abstraction, given that C++ will not support reflections in the near future.
 
 Author: weber calixto (webersouzacalixto at gmail)
 
 ## Git workflow <a name="git_workflow"></a>
 
-I've chosen to work with GitHubflow (i.e Only a master branch with feature branches, no master/develop scheme, versioning with git tags).
+I've chosen to work with GitHubflow (i.e Only a master branch with feature branches, no master/develop branching scheme, versioning with git tags).
 
 Convention: Every master commit must be stable.
 
