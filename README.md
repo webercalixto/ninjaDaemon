@@ -116,8 +116,6 @@ void main(){
 
 ```
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon: Log started
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: STARTING NINJADAEMON
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: STARTING NINJADAEMON
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon::loadConfigFile
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon::loadConfigFile numNinjaWorkers = 4
 Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::ninjaWorker constructor workerNum = 0  serverURL[type=1]=>http://www.google.com sleepDuration[type=2]=>3000
