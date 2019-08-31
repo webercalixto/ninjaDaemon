@@ -9,6 +9,7 @@ class ninjaDaemon
     std::vector<std::unique_ptr<ninjaWorker>> ninjaWorkers;
 
     public:
+    // std::map<std::string, std::variant<int, std::string, bool, double>> workerConfigs;
     ninjaStructs::funcCallbackPtr *funcPtr = nullptr;
     bool                           finish;
     ninjaStructs::workerConfigMap  workerConfigs;

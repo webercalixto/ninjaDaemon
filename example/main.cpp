@@ -18,9 +18,11 @@ void callbackFunc(const int workerNum, const ninjaStructs::workerConfigMap &_wor
 int main(int argc, char *argv[])
 {
     /** Until C++ get reflections, this sort of abstraction is necessary to automate variable retrieval **/
-    ctx.workerConfigs["sleepDuration"] = { ninjaStructs::WTYPE_INT };
-    ctx.workerConfigs["serverURL"]     = { ninjaStructs::WTYPE_STRING };
     ctx.funcPtr                        = callbackFunc;
+    ctx.workerConfigs["sleepDuration"] = {1000};
+    ctx.workerConfigs["serverURL"]  = {std::string("")};
+    ctx.workerConfigs["doubleExample"]  = {13.3f};
+    ctx.workerConfigs["boolExample"]  = {true};
     ctx.logger->log("STARTING NINJADAEMON");
     if (argc < 2 || !ninjaUtils::validFile(argv[1]))
     {
@@ -31,6 +33,7 @@ int main(int argc, char *argv[])
     std::cout << "HELLO WORLD" << std::endl;
     if (!ctx.loadConfigFile(std::string(argv[1]))) return 0;
     signal(SIGINT, signalHandler);
+    ctx.logger->log("RUNNING");
     while (!ctx.finish)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));

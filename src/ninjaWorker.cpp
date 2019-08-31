@@ -13,7 +13,17 @@ ninjaWorker::ninjaWorker(const int _workerNum, const ninjaStructs::workerConfigM
 
     for (auto const &[key, val] : this->workerConfig)
     {
-        logMessage += " " + key + "[type=" + std::to_string(val.type) + "]=>" + val.value;
+        logMessage += " [" + key + "]=>";
+        if (auto pval = std::get_if<int>(&val)) logMessage += std::to_string(*pval);
+        if (auto pval = std::get_if<std::string>(&val)) logMessage += *pval;
+        if (auto pval = std::get_if<double>(&val)) logMessage += std::to_string(*pval);
+        if (auto pval = std::get_if<bool>(&val))
+        {
+            if (*pval)
+                logMessage += "TRUE";
+            else
+                logMessage += "FALSE";
+        }
     }
     this->logger->log(logMessage);
     this->thread = std::thread([&] { this->threadFunction(std::move(this->exitSignal.get_future())); });
@@ -37,8 +47,9 @@ void ninjaWorker::threadFunction(std::future<void> futureFinish)
     {
         this->funcPtr(this->workerNum, this->workerConfig, this->logger);
         this->logger->log("ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum)
-                          + " going to sleep");
-        std::this_thread::sleep_for(std::chrono::milliseconds(std::stoi(this->workerConfig["sleepDuration"].value)));
+                          + " going to sleep for " + std::to_string(std::get<int>(this->workerConfig["sleepDuration"]))
+                          + " ms");
+        std::this_thread::sleep_for(std::chrono::milliseconds(std::get<int>(this->workerConfig["sleepDuration"])));
     }
     this->logger->log("ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum)
                       + " finishing thread");

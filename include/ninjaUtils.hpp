@@ -7,7 +7,10 @@ bool validPtr(T ptn)
     return ptn == nullptr ? false : true;
 }
 
-
+/*typename T mycast()
+{
+    return decltype(int);
+}*/
 bool validFile(const char *filename);
 
 } // namespace ninjaUtils
