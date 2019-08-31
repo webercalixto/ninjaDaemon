@@ -23,6 +23,10 @@ There is a simple datatype abstraction, given that C++ will not support reflecti
 
 Author: weber calixto (webersouzacalixto at gmail)
 
+## Exception handling
+
+Some lines with potential exceptions are left un-try-catched intentionally so the ugly runtime error can be seen.
+
 ## Git workflow <a name="git_workflow"></a>
 
 I've chosen to work with GitHubflow (i.e Only a master branch with feature branches, no master/develop branching scheme, versioning with git tags).
