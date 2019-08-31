@@ -67,20 +67,29 @@ cd scripts/
 Lets say you want 4 workers ("threads").
 ### Configuration file .ini <a name="example_ini_file"></a>
 
-[DEFAULT]  
-numNinjaWorkers=4  
-[0]  
-sleepDuration=3000  
-serverURL=http://www.google.com  
-[1]  
-sleepDuration=3000  
-serverURL=http://www.bing.com  
-[2]  
-sleepDuration=3000  
-serverURL=http://www.duckduckgo.com  
-[3]  
-sleepDuration=3000  
-serverURL=http://www.dontknowanyothersearchsites.com  
+[DEFAULT]
+numNinjaWorkers=4
+[0]
+sleepDuration=1000
+serverURL=http://www.google.com
+doubleExample=15.0
+boolExample=false
+[1]
+sleepDuration=1001
+serverURL=http://www.bing.com
+doubleExample=15.1
+boolExample=true
+[2]
+sleepDuration=1002
+serverURL=http://www.duckduckgo.com
+doubleExample=15.2
+boolExample=false
+[3]
+sleepDuration=1003
+serverURL=http://www.dontknowanyothersearchsites.com
+doubleExample=15.3
+boolExample=true
+
 
 ### Your code thus would have to look like this <a name="example_code"></a>
 
@@ -99,61 +108,90 @@ void callbackFunc(const int workerNum, const ninjaStructs::workerConfigMap &_wor
     _logger->log("callbackFunc workerNum=" + std::to_string(workerNum) + " doing some work");
 }
 
-void main(){
-  ctx.workerConfigs["sleepDuration"] = { ninjaStructs::WTYPE_INT };
-  ctx.workerConfigs["serverURL"]     = { ninjaStructs::WTYPE_STRING };
-  ctx.funcPtr                        = callbackFunc;
-  if(!ctx.loadConfigFile(your_ini_filename_here))
+int main(int argc, char *argv[])
+{
+    /** Until C++ get reflections, this sort of abstraction is necessary to automate variable retrieval **/
+    ctx.funcPtr                        = callbackFunc;
+    ctx.workerConfigs["sleepDuration"] = {1000};
+    ctx.workerConfigs["serverURL"]  = {std::string("")};
+    ctx.workerConfigs["doubleExample"]  = {13.3f};
+    ctx.workerConfigs["boolExample"]  = {true};
+    ctx.logger->log("STARTING NINJADAEMON");
+    if (argc < 2 || !ninjaUtils::validFile(argv[1]))
+    {
+        ctx.logger->log("No ini filename provided or ini file doesnt exist. exiting");
+        return 0;
+    }
+    ctx.logger->log("STARTING NINJADAEMON");
+    std::cout << "HELLO WORLD" << std::endl;
+    if (!ctx.loadConfigFile(std::string(argv[1]))) return 0;
+    signal(SIGINT, signalHandler);
+    ctx.logger->log("RUNNING");
+    while (!ctx.finish)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+    ctx.logger->log("FINISHING NINJADAEMON");
     return 0;
-  signal(SIGINT, signalHandler);
-  while (!ctx.finish)
-  {
-      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-  }
 }
 ```
 ### The output on syslog would look something like this: <a name="example_syslog"></a>
 * Bear in mind the workers are fully asynchronous, message order may differ
 ```
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon: Log started
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon::loadConfigFile
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon::loadConfigFile numNinjaWorkers = 4
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::ninjaWorker constructor workerNum = 0  serverURL[type=1]=>http://www.google.com sleepDuration[type=2]=>3000
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::ninjaWorker constructor workerNum = 1  serverURL[type=1]=>http://www.bing.com sleepDuration[type=2]=>3000
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::ninjaWorker constructor workerNum = 2  serverURL[type=1]=>http://www.duckduckgo.com sleepDuration[type=2]=>3000
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 0 starting thread
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::ninjaWorker constructor workerNum = 3  serverURL[type=1]=>http://www.dontknowanyothersearchsites.com sleepDuration[type=2]=>3000
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 1 starting thread
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 2 starting thread
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 3 starting thread
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=0 doing some work
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 0 going to sleep
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=1 doing some work
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 1 going to sleep
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=3 doing some work
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 3 going to sleep
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=2 doing some work
-Aug 29 22:29:47 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 2 going to sleep
-Aug 29 22:29:49 weber-VirtualBox |NINJADAEMON|[4492]: signalHandler: Interrupt signal (2) received
-Aug 29 22:29:49 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon ctx finishing
-Aug 29 22:29:49 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 0 starting
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 0 finishing thread
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 0 finished
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 1 starting
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=3 doing some work
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 3 going to sleep
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=2 doing some work
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 2 going to sleep
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 1 finishing thread
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 1 finished
-Aug 29 22:29:50 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 2 starting
-Aug 29 22:29:53 weber-VirtualBox |NINJADAEMON|[4492]: callbackFunc workerNum=3 doing some work
-Aug 29 22:29:53 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 3 going to sleep
-Aug 29 22:29:53 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 2 finishing thread
-Aug 29 22:29:53 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 2 finished
-Aug 29 22:29:53 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 3 starting
-Aug 29 22:29:56 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::threadFunction workerNum= 3 finishing thread
-Aug 29 22:29:56 weber-VirtualBox |NINJADAEMON|[4492]: ninjaWorker::~ninjaWorker destructor  workerNum = 3 finished
-Aug 29 22:29:56 weber-VirtualBox |NINJADAEMON|[4492]: ninjaDaemon: ninjaLogger: Closing
+Aug 30 21:28:31 weber-VirtualBox NINJAEXAMPLE[22207]: ninjaDaemon: Log started
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: STARTING NINJADAEMON
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: STARTING NINJADAEMON
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaDaemon::loadConfigFile
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaDaemon::loadConfigFile numNinjaWorkers = 4
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 0 boolExample=>false
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 0 doubleExample=>15.000000
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 0 serverURL=>http://www.google.com
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 0 sleepDuration=>1000
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaWorker::ninjaWorker constructor workerNum = 0  [boolExample]=>FALSE [doubleExample]=>15.000000 [serverURL]=>http://www.google.com [sleepDuration]=>1000
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 1 boolExample=>true
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 1 doubleExample=>15.100000
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 1 serverURL=>http://www.bing.com
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 1 sleepDuration=>1001
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaWorker::ninjaWorker constructor workerNum = 1  [boolExample]=>TRUE [doubleExample]=>15.100000 [serverURL]=>http://www.bing.com [sleepDuration]=>1001
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 2 boolExample=>false
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 2 doubleExample=>15.200000
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 2 serverURL=>http://www.duckduckgo.com
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 2 sleepDuration=>1002
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaWorker::ninjaWorker constructor workerNum = 2  [boolExample]=>FALSE [doubleExample]=>15.200000 [serverURL]=>http://www.duckduckgo.com [sleepDuration]=>1002
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaWorker::threadFunction workerNum= 1 starting thread
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaWorker::threadFunction workerNum= 0 starting thread
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaWorker::threadFunction workerNum= 2 starting thread
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 3 boolExample=>true
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 3 doubleExample=>15.300000
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 3 serverURL=>http://www.dontknowanyothersearchsites.com
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: worker 3 sleepDuration=>1003
+Aug 30 21:28:31 weber-VirtualBox `\`ڔU[22207]: ninjaWorker::ninjaWorker constructor workerNum = 3  [boolExample]=>TRUE [doubleExample]=>15.300000 [serverURL]=>http://www.dontknowanyothersearchsites.com [sleepDuration]=>1003
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: RUNNING
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: ninjaWorker::threadFunction workerNum= 3 starting thread
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: callbackFunc workerNum=2 doing some work
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: ninjaWorker::threadFunction workerNum= 2 going to sleep for 1002 ms
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: callbackFunc workerNum=1 doing some work
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: ninjaWorker::threadFunction workerNum= 1 going to sleep for 1001 ms
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: callbackFunc workerNum=0 doing some work
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: ninjaWorker::threadFunction workerNum= 0 going to sleep for 1000 ms
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: callbackFunc workerNum=3 doing some work
+Aug 30 21:28:31 weber-VirtualBox  e�!�[22207]: ninjaWorker::threadFunction workerNum= 3 going to sleep for 1003 ms
+Aug 30 21:28:32 weber-VirtualBox  e�!�[22207]: signalHandler: Interrupt signal (2) received
+Aug 30 21:28:32 weber-VirtualBox `\`ڔU[22207]: FINISHING NINJADAEMON
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaDaemon ctx finishing
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 0 starting
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::threadFunction workerNum= 0 finishing thread
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 0 finished
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 1 starting
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::threadFunction workerNum= 1 finishing thread
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 1 finished
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 2 starting
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::threadFunction workerNum= 2 finishing thread
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 2 finished
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 3 starting
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::threadFunction workerNum= 3 finishing thread
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaWorker::~ninjaWorker destructor  workerNum = 3 finished
+Aug 30 21:28:32 weber-VirtualBox ��w5[22207]: 7]: ninjaDaemon: ninjaLogger: Closing
+
 
 ```
