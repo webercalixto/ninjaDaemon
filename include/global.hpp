@@ -13,13 +13,14 @@
 #include <future>
 #include <any>
 #include <variant>
-
-#include "ninjaStructs.hpp"
+#include <type_traits>
+#include <charconv>
 
 #include "ninjaUtils.hpp"
 
 #include "ninjaLogger.hpp"
 #include "ninjaWorker.hpp"
 #include "ninjaDaemon.hpp"
+#include "ninjaTypes.hpp"
 
 #endif

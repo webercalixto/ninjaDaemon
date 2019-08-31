@@ -1,8 +1,8 @@
 #include "global.hpp"
 
 
-ninjaWorker::ninjaWorker(const int _workerNum, const ninjaStructs::workerConfigMap &_workerConfig,
-                         std::shared_ptr<ninjaLogger> _logger, ninjaStructs::funcCallbackPtr *_funcPtr)
+ninjaWorker::ninjaWorker(const int _workerNum, const ninjaTypes::workerConfigMap &_workerConfig,
+                         std::shared_ptr<ninjaLogger> _logger, ninjaTypes::funcCallbackPtr *_funcPtr)
 {
     this->logger       = _logger;
     this->workerConfig = _workerConfig;
@@ -14,10 +14,10 @@ ninjaWorker::ninjaWorker(const int _workerNum, const ninjaStructs::workerConfigM
     for (auto const &[key, val] : this->workerConfig)
     {
         logMessage += " [" + key + "]=>";
-        if (auto pval = std::get_if<int>(&val)) logMessage += std::to_string(*pval);
-        if (auto pval = std::get_if<std::string>(&val)) logMessage += *pval;
-        if (auto pval = std::get_if<double>(&val)) logMessage += std::to_string(*pval);
-        if (auto pval = std::get_if<bool>(&val))
+        if (auto pval = std::get_if<ninjaTypes::_int>(&val)) logMessage += std::to_string(*pval);
+        if (auto pval = std::get_if<ninjaTypes::_string>(&val)) logMessage += *pval;
+        if (auto pval = std::get_if<ninjaTypes::_double>(&val)) logMessage += std::to_string(*pval);
+        if (auto pval = std::get_if<ninjaTypes::_bool>(&val))
         {
             if (*pval)
                 logMessage += "TRUE";
@@ -47,9 +47,10 @@ void ninjaWorker::threadFunction(std::future<void> futureFinish)
     {
         this->funcPtr(this->workerNum, this->workerConfig, this->logger);
         this->logger->log("ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum)
-                          + " going to sleep for " + std::to_string(std::get<int>(this->workerConfig["sleepDuration"]))
-                          + " ms");
-        std::this_thread::sleep_for(std::chrono::milliseconds(std::get<int>(this->workerConfig["sleepDuration"])));
+                          + " going to sleep for "
+                          + std::to_string(std::get<ninjaTypes::_int>(this->workerConfig["sleepDuration"])) + " ms");
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(std::get<ninjaTypes::_int>(this->workerConfig["sleepDuration"])));
     }
     this->logger->log("ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum)
                       + " finishing thread");

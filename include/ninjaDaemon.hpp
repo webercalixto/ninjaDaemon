@@ -10,11 +10,11 @@ class ninjaDaemon
 
     public:
     // std::map<std::string, std::variant<int, std::string, bool, double>> workerConfigs;
-    ninjaStructs::funcCallbackPtr *funcPtr = nullptr;
-    bool                           finish;
-    ninjaStructs::workerConfigMap  workerConfigs;
-    bool                           finishDaemon{ false };
-    std::shared_ptr<ninjaLogger>   logger;
+    ninjaTypes::funcCallbackPtr *funcPtr = nullptr;
+    bool                         finish;
+    ninjaTypes::workerConfigMap  workerConfigs;
+    bool                         finishDaemon{ false };
+    std::shared_ptr<ninjaLogger> logger;
     ninjaDaemon(const std::string &logName);
     ~ninjaDaemon();
     bool loadConfigFile(std::string configFile);
