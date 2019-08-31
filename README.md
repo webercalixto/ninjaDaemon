@@ -67,28 +67,28 @@ cd scripts/
 Lets say you want 4 workers ("threads").
 ### Configuration file .ini <a name="example_ini_file"></a>
 
-[DEFAULT]
-numNinjaWorkers=4
-[0]
-sleepDuration=1000
-serverURL=http://www.google.com
-doubleExample=15.0
-boolExample=false
-[1]
-sleepDuration=1001
-serverURL=http://www.bing.com
-doubleExample=15.1
-boolExample=true
-[2]
-sleepDuration=1002
-serverURL=http://www.duckduckgo.com
-doubleExample=15.2
-boolExample=false
-[3]
-sleepDuration=1003
-serverURL=http://www.dontknowanyothersearchsites.com
-doubleExample=15.3
-boolExample=true
+[DEFAULT]  
+numNinjaWorkers=4  
+[0]  
+sleepDuration=1000  
+serverURL=http://www.google.com  
+doubleExample=15.0  
+boolExample=false  
+[1]  
+sleepDuration=1001  
+serverURL=http://www.bing.com  
+doubleExample=15.1  
+boolExample=true  
+[2]  
+sleepDuration=1002  
+serverURL=http://www.duckduckgo.com  
+doubleExample=15.2  
+boolExample=false  
+[3]  
+sleepDuration=1003  
+serverURL=http://www.dontknowanyothersearchsites.com  
+doubleExample=15.3  
+boolExample=true  
 
 
 ### Your code thus would have to look like this <a name="example_code"></a>
