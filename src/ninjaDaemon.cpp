@@ -35,8 +35,40 @@ bool ninjaDaemon::loadConfigFile(std::string configFile)
     for (int workerNum = 0; workerNum < this->numNinjaWorkers; workerNum++)
     {
         ninjaStructs::workerConfigMap workerConfig = this->workerConfigs;
-        for (auto const &[key, val] : this->workerConfigs)
-            inipp::extract(ini.sections[std::to_string(workerNum)][key], workerConfig[key].value);
+
+        for (auto &[key, val] : workerConfig)
+        {
+            // inipp::extract(ini.sections[std::to_string(workerNum)][key], workerConfig[key].value);
+            std::string value      = "";
+            std::string logMessage = "worker " + std::to_string(workerNum) + " " + key + "=>";
+            inipp::extract(ini.sections[std::to_string(workerNum)][key], value);
+            if (std::holds_alternative<std::string>(val))
+            {
+                val = value;
+                logMessage += std::get<std::string>(val);
+            }
+            else if (std::holds_alternative<int>(val))
+            {
+                val = std::stoi(value);
+                logMessage += std::to_string(std::get<int>(val));
+            }
+            else if (std::holds_alternative<double>(val))
+            {
+                val = std::stod(value);
+                logMessage += std::to_string(std::get<double>(val));
+            }
+            else if (std::holds_alternative<bool>(val))
+            {
+                val = ((value == std::string("true")) ? true : false);
+                if (std::get<bool>(val))
+                    logMessage += "true";
+                else
+                    logMessage += "false";
+            }
+            else
+                logMessage += "HOLDTYPE NOT RECOGNIZED";
+            this->logger->log(logMessage);
+        }
         std::unique_ptr<ninjaWorker> ptr(new ninjaWorker(workerNum, workerConfig, this->logger, this->funcPtr));
         this->ninjaWorkers.push_back(std ::move(ptr));
     }

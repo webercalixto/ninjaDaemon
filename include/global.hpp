@@ -11,6 +11,8 @@
 #include <map>
 #include <memory>
 #include <future>
+#include <any>
+#include <variant>
 
 #include "ninjaStructs.hpp"
 
