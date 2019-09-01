@@ -18,6 +18,12 @@ bool validPtr(T ptn)
 bool validFile(const char *filename);
 
 template <typename T>
+std::string getTypeName()
+{
+    return std::string(_VAR_NAME(T));
+}
+
+template <typename T>
 T getValfromVariant(ninjaTypes::workerConfigVariant var)
 {
     T value = std::get<T>(var);

@@ -16,6 +16,8 @@
 #include <type_traits>
 #include <charconv>
 
+#define _VAR_NAME(var) (#var)
+
 #include "ninjaUtils.hpp"
 
 #include "ninjaLogger.hpp"
