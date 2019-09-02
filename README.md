@@ -2,6 +2,8 @@ This is a simple worker daemon with REST JSON support, written with C++17.
 Quasi type safe data retrieval from ini file, fully asynchronous and 'unlimited' number of workers, etc etc  
 
 ### * Bear in mind this is a work in progress  
+Todo: Doxygen comments, code optimization and improvements on callback function style.  
+
 <span style="color:red"> **I am working on a C99 equivalent, will release soon** </span>  
 # Table of contents
 1. [About this project](#about)  
