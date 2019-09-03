@@ -43,3 +43,8 @@ tmp/
 .vscoce/*
 .history
 .vscode
+.codelite/*
+*.d
+*.mk
+*.project
+*.workspace
