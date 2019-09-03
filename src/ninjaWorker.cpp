@@ -2,12 +2,14 @@
 
 
 ninjaWorker::ninjaWorker(const int _workerNum, const ninjaTypes::workerConfigMap &_workerConfig,
-                         std::shared_ptr<ninjaLogger> _logger, ninjaTypes::funcCallbackPtr *_funcPtr)
+                         std::shared_ptr<ninjaLogger> _logger, ninjaTypes::funcCallbackPtr *_funcPtr,
+                         const ninjaTypes::workerLogLevel _workerLogLevel)
 {
-    this->logger       = _logger;
-    this->workerConfig = _workerConfig;
-    this->workerNum    = _workerNum;
-    this->funcPtr      = _funcPtr;
+    this->logger         = _logger;
+    this->workerConfig   = _workerConfig;
+    this->workerNum      = _workerNum;
+    this->funcPtr        = _funcPtr;
+    this->workerLogLevel = _workerLogLevel;
     std::string logMessage{ "ninjaWorker::ninjaWorker constructor workerNum = " + std::to_string(this->workerNum)
                             + " " };
 
@@ -46,9 +48,10 @@ void ninjaWorker::threadFunction(std::future<void> futureFinish)
     while (futureFinish.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
     {
         this->funcPtr(this->workerNum, this->workerConfig, this->logger);
-        this->logger->log("ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum)
-                          + " going to sleep for "
-                          + std::to_string(std::get<ninjaTypes::_int>(this->workerConfig["sleepDuration"])) + " ms");
+        if (this->workerLogLevel == ninjaTypes::workerLogLevel::LOGLEVEL_ALL)
+            this->logger->log(
+                "ninjaWorker::threadFunction workerNum= " + std::to_string(this->workerNum) + " going to sleep for "
+                + std::to_string(std::get<ninjaTypes::_int>(this->workerConfig["sleepDuration"])) + " ms");
         std::this_thread::sleep_for(
             std::chrono::milliseconds(std::get<ninjaTypes::_int>(this->workerConfig["sleepDuration"])));
     }

@@ -23,10 +23,11 @@ struct configVal
     workerConfigVariant value;
 };
 
-struct configVal2
+typedef enum workerLogLevel
 {
-    std::any value;
-};
+    LOGLEVEL_ALL            = 0,
+    LOGLEVEL_INIT_AND_ERROR = 1,
+} workerLogLevel;
 
 typedef enum workerConfigValType
 {
@@ -35,15 +36,6 @@ typedef enum workerConfigValType
     WTYPE_BOOL   = 2,
     WTYPE_DOUBLE = 3
 } workerConfigValType;
-
-/** Until C++ get reflections, this sort of abstraction is necessary to automate variable retrieval **/
-/** Of course there are libraries for this, but what I need here is quite simple **/
-typedef struct workerConfigVal
-{
-    ninjaTypes::workerConfigValType type  = WTYPE_STRING;
-    std::string                     value = "";
-} workerConfigVal;
-
 
 using workerConfigMap = std::map<std::string, workerConfigVariant>;
 using funcCallbackPtr = void(const int workerNum, const ninjaTypes::workerConfigMap &_workerConfig,

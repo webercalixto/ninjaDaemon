@@ -10,7 +10,8 @@ class ninjaDaemon
 
     public:
     // std::map<std::string, std::variant<int, std::string, bool, double>> workerConfigs;
-    ninjaTypes::funcCallbackPtr *funcPtr = nullptr;
+    ninjaTypes::funcCallbackPtr *funcPtr        = nullptr;
+    ninjaTypes::workerLogLevel   workerLogLevel = ninjaTypes::workerLogLevel::LOGLEVEL_INIT_AND_ERROR;
     bool                         finish;
     ninjaTypes::workerConfigMap  workerConfigs;
     bool                         finishDaemon{ false };

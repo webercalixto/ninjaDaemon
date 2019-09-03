@@ -49,7 +49,8 @@ bool ninjaDaemon::loadConfigFile(std::string configFile)
                 return false;
             }
         }
-        std::unique_ptr<ninjaWorker> ptr(new ninjaWorker(workerNum, workerConfig, this->logger, this->funcPtr));
+        std::unique_ptr<ninjaWorker> ptr(
+            new ninjaWorker(workerNum, workerConfig, this->logger, this->funcPtr, this->workerLogLevel));
         this->ninjaWorkers.push_back(std ::move(ptr));
     }
     return true;
