@@ -1,7 +1,7 @@
 #include "global.hpp"
 #include <syslog.h>
 
-ninjaLogger::ninjaLogger(const std::string &logName)
+ninjaLogger::ninjaLogger(const std::string &_logName)
     : NOTICE_LVL(LOG_NOTICE)
     , DEBUG_LVL(LOG_DEBUG)
     , INFO_LVL(LOG_INFO)
@@ -12,7 +12,8 @@ ninjaLogger::ninjaLogger(const std::string &logName)
     , EMERG_LVL(LOG_EMERG)
 {
     setLogLevel(this->DEBUG_LVL);
-    openlog(logName.c_str(), LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
+    this->logName = _logName;
+    openlog(this->logName.c_str(), LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
     this->log("ninjaDaemon: Log started");
 }
 
@@ -32,7 +33,7 @@ void ninjaLogger::log(const int level, const std::string &message)
 {
     /** syslog is supposed to be thread safe, but this is subject to change **/
     std::scoped_lock lck(this->lock);
-    syslog(level, "%s", message.c_str());
+    syslog(level, "%s %s", this->logName.c_str(), message.c_str());
     if (level <= this->CRIT_LVL) std::cout << message << std::endl;
 }
 void ninjaLogger::log(const std::string &message)
