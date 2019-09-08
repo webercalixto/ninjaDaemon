@@ -13,10 +13,11 @@ Quasi type safe data retrieval from ini file, fully asynchronous and 'unlimited'
   2.1 [First Build](#first_build)  
   2.2 [Subsequent Builds](#subsequent_builds)  
   2.2 [Clean](#clean)  
-2. [Example](#usage_example)  
+2. [Examples](#usage_example)  
   2.1 [Ini File](#example_ini_file)  
   2.2 [Code](#example_code)  
   2.2 [Syslog output](#example_syslog)  
+
 
 # Aboute this project <a name="about"></a>
 
@@ -72,8 +73,13 @@ cd scripts/
 
 ./clean.sh
  
-# Usage Example <a name="usage_example"></a>
-Lets say you want 4 workers ("threads").
+# Examples <a name="usage_example"></a>
+  
+Examples are on the example/folder.  
+  
+## Simple example: ##  
+Lets say you want 4 workers ("threads").  
+  
 ### Configuration file .ini <a name="example_ini_file"></a>
 
 [DEFAULT]  
