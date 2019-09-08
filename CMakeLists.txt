@@ -50,8 +50,14 @@ target_link_libraries(ninjaDaemonStatic PUBLIC
 	stdc++fs
 	libpistache.a)
 	
-add_executable(ninjaDaemon ${SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp")
+add_executable(ninjaDaemon ${SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/example/simpleExample.cpp")
 target_link_libraries(ninjaDaemon PUBLIC 
+	Threads::Threads 
+	stdc++fs
+	libpistache.a)
+
+add_executable(ninjaDaemonPistacheExample01 ${SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/example/simpleExample.cpp")
+target_link_libraries(ninjaDaemonPistacheExample01 PUBLIC 
 	Threads::Threads 
 	stdc++fs
 	libpistache.a)
